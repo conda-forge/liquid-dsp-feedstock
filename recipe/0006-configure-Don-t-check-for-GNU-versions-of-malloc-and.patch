@@ -1,0 +1,29 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ryan Volz <ryan.volz@gmail.com>
+Date: Wed, 11 Jan 2023 14:51:01 -0500
+Subject: [PATCH] configure: Don't check for GNU versions of malloc and
+ realloc.
+
+That they can be called is checked a few lines later, and the check for
+the GNU version fails while cross-compiling and causes more headaches
+when we don't actually care if malloc(0) returns a valid pointer.
+---
+ configure.ac | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index e0ed8cd3..be3ae996 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -103,8 +103,6 @@ AC_PROG_RANLIB
+ 
+ # Check for necessary libraries, library functions
+ AC_FUNC_ERROR_AT_LINE
+-AC_FUNC_MALLOC
+-AC_FUNC_REALLOC
+ 
+ # AC_CHECK_FUNC(function, [action-if-found], [action-if-not-found])
+ AC_CHECK_FUNCS([malloc realloc free memset memmove],[],
+-- 
+2.38.1
+
