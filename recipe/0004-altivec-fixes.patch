@@ -1,0 +1,112 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Dan=20Hor=C3=A1k?= <dan@danny.cz>
+Date: Thu, 16 Aug 2018 09:24:32 +0200
+Subject: [PATCH] altivec fixes
+
+- include altivec.h
+- fix typecasting
+- fix initialization
+---
+ configure.ac                      | 2 +-
+ src/dotprod/src/dotprod_crcf.av.c | 9 +++++----
+ src/dotprod/src/dotprod_rrrf.av.c | 9 +++++----
+ 3 files changed, 11 insertions(+), 9 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 338ffea4..e0ed8cd3 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -211,7 +211,7 @@ else
+                        src/dotprod/src/dotprod_rrrf.av.o \
+                        src/dotprod/src/dotprod_crcf.av.o \
+                        src/dotprod/src/sumsq.o"
+-        ARCH_OPTION="-fno-common -faltivec";;
++        ARCH_OPTION="-fno-common -maltivec";;
+     armv1*|armv2*|armv3*|armv4*|armv5*|armv6*)
+         # assume neon instructions are NOT available
+         MLIBS_DOTPROD="src/dotprod/src/dotprod_cccf.o \
+diff --git a/src/dotprod/src/dotprod_crcf.av.c b/src/dotprod/src/dotprod_crcf.av.c
+index a729bb87..f6e3f2b4 100644
+--- a/src/dotprod/src/dotprod_crcf.av.c
++++ b/src/dotprod/src/dotprod_crcf.av.c
+@@ -26,6 +26,7 @@
+ 
+ #include <stdio.h>
+ #include <stdlib.h>
++#include <altivec.h>
+ 
+ #include "liquid.internal.h"
+ 
+@@ -195,8 +196,8 @@ int dotprod_crcf_execute(dotprod_crcf    _q,
+     union { vector float v; float w[4];} s;
+     unsigned int nblocks;
+ 
+-    ar = (vector float*)( (int)_x & ~15);
+-    al = ((int)_x & 15)/sizeof(float);
++    ar = (vector float*)( (uintptr_t)_x & ~15);
++    al = ((uintptr_t)_x & 15)/sizeof(float);
+ 
+     d = (vector float*)_q->h[al];
+ 
+@@ -206,7 +207,7 @@ int dotprod_crcf_execute(dotprod_crcf    _q,
+     // split into four vectors each with four 32-bit
+     // partial sums.  Effectively each loop iteration
+     // operates on 16 input samples at a time.
+-    s0 = s1 = s2 = s3 = (vector float)(0);
++    s0 = s1 = s2 = s3 = (vector float){0,0,0,0};
+     while (nblocks >= 4) {
+         s0 = vec_madd(ar[nblocks-1],d[nblocks-1],s0);
+         s1 = vec_madd(ar[nblocks-2],d[nblocks-2],s1);
+@@ -227,7 +228,7 @@ int dotprod_crcf_execute(dotprod_crcf    _q,
+     // move the result into the union s (effetively,
+     // this loads the four 32-bit values in s0 into
+     // the array w).
+-    s.v = vec_add(s0,(vector float)(0));
++    s.v = vec_add(s0,(vector float){0,0,0,0});
+ 
+     // sum the resulting array
+     //*_r = s.w[0] + s.w[1] + s.w[2] + s.w[3];
+diff --git a/src/dotprod/src/dotprod_rrrf.av.c b/src/dotprod/src/dotprod_rrrf.av.c
+index 4aebc45d..6d2c48d3 100644
+--- a/src/dotprod/src/dotprod_rrrf.av.c
++++ b/src/dotprod/src/dotprod_rrrf.av.c
+@@ -26,6 +26,7 @@
+ 
+ #include <stdio.h>
+ #include <stdlib.h>
++#include <altivec.h>
+ 
+ #include "liquid.internal.h"
+ 
+@@ -190,8 +191,8 @@ int dotprod_rrrf_execute(dotprod_rrrf _q,
+     union { vector float v; float w[4];} s;
+     unsigned int nblocks;
+ 
+-    ar = (vector float*)( (int)_x & ~15);
+-    al = ((int)_x & 15)/sizeof(float);
++    ar = (vector float*)( (uintptr_t)_x & ~15);
++    al = ((uintptr_t)_x & 15)/sizeof(float);
+ 
+     d = (vector float*)_q->h[al];
+ 
+@@ -200,7 +201,7 @@ int dotprod_rrrf_execute(dotprod_rrrf _q,
+     // split into four vectors each with four 32-bit
+     // partial sums.  Effectively each loop iteration
+     // operates on 16 input samples at a time.
+-    s0 = s1 = s2 = s3 = (vector float)(0);
++    s0 = s1 = s2 = s3 = (vector float){0,0,0,0};
+     while (nblocks >= 4) {
+         s0 = vec_madd(ar[nblocks-1],d[nblocks-1],s0);
+         s1 = vec_madd(ar[nblocks-2],d[nblocks-2],s1);
+@@ -221,7 +222,7 @@ int dotprod_rrrf_execute(dotprod_rrrf _q,
+     // move the result into the union s (effetively,
+     // this loads the four 32-bit values in s0 into
+     // the array w).
+-    s.v = vec_add(s0,(vector float)(0));
++    s.v = vec_add(s0,(vector float){0,0,0,0});
+ 
+     // sum the resulting array
+     *_r = s.w[0] + s.w[1] + s.w[2] + s.w[3];
+-- 
+2.38.1
+

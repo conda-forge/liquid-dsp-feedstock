@@ -14,6 +14,7 @@ source:
     - 0001-Remove-headers-check.patch  # [win]
     - 0002-Remove-fPIC-from-forced-CFLAGS-errors-on-Windows-wit.patch  # [win]
     - 0003-Set-library-sonames-properly-to-allow-for-splitting-.patch
+    - 0004-altivec-fixes.patch
 
 build:
   number: 0
