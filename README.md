@@ -1,11 +1,11 @@
-About liquid-dsp
-================
+About liquid-dsp-feedstock
+==========================
+
+Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/liquid-dsp-feedstock/blob/main/LICENSE.txt)
 
 Home: https://liquidsdr.org/
 
 Package license: MIT
-
-Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/liquid-dsp-feedstock/blob/main/LICENSE.txt)
 
 Summary: Digital signal processing library for software-defined radios
 
