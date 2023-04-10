@@ -17,9 +17,10 @@ source:
     - 0004-altivec-fixes.patch
     - 0005-altivec-Fix-typo-in-dotprod_rrrf.av.c-that-prevented.patch
     - 0006-configure-Don-t-check-for-GNU-versions-of-malloc-and.patch
+    - 0007-altivec-Add-dotprod_-_copy-functions-to-complete-API.patch
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   build:

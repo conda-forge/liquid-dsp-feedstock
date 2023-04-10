@@ -1,0 +1,106 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ryan Volz <ryan.volz@gmail.com>
+Date: Mon, 10 Apr 2023 14:48:00 -0400
+Subject: [PATCH] altivec: Add dotprod_*_copy functions to complete API.
+
+---
+ src/dotprod/src/dotprod_crcf.av.c | 30 ++++++++++++++++++++++++++++++
+ src/dotprod/src/dotprod_rrrf.av.c | 27 +++++++++++++++++++++++++++
+ 2 files changed, 57 insertions(+)
+
+diff --git a/src/dotprod/src/dotprod_crcf.av.c b/src/dotprod/src/dotprod_crcf.av.c
+index f6e3f2b4..f2fc329c 100644
+--- a/src/dotprod/src/dotprod_crcf.av.c
++++ b/src/dotprod/src/dotprod_crcf.av.c
+@@ -26,6 +26,7 @@
+ 
+ #include <stdio.h>
+ #include <stdlib.h>
++#include <string.h>
+ #include <altivec.h>
+ 
+ #include "liquid.internal.h"
+@@ -161,6 +162,35 @@ dotprod_crcf dotprod_crcf_recreate_rev(dotprod_crcf _q,
+     return dotprod_crcf_create_rev(_h,_n);
+ }
+ 
++dotprod_crcf dotprod_crcf_copy(dotprod_crcf q_orig)
++{
++    // validate input
++    if (q_orig == NULL)
++        return liquid_error_config("dotprod_crcf_copy().av, object cannot be NULL");
++
++    dotprod_crcf q_copy = (dotprod_crcf)malloc(sizeof(struct dotprod_crcf_s));
++    q_copy->n = q_orig->n;
++
++    // allocate memory for coefficients and copy them over
++    // there are 4 copies of the input coefficients (one for each
++    // data alignment).  For example: _h[4] = {1,2,3,4,5,6}
++    //  q->h[0] = {1,1,2,2,3,3,4,4,5,5,6,6}
++    //  q->h[1] = {. 1,1,2,2,3,3,4,4,5,5,6,6}
++    //  q->h[2] = {. . 1,1,2,2,3,3,4,4,5,5,6,6}
++    //  q->h[3] = {. . . 1,1,2,2,3,3,4,4,5,5,6,6}
++    // NOTE: double allocation size; coefficients are real, but
++    //       need to be multiplied by real and complex components
++    //       of input.
++    unsigned int i;
++    for (i=0; i<4; i++) {
++        q_copy->h[i] = calloc(1+(2*q_copy->n+i-1)/4,2*sizeof(vector float));
++        memmove(q_copy->h[i] + i, q_orig->h[i] + i, 2*q_orig->n*sizeof(float));
++    }
++
++    // return object
++    return q_copy;
++}
++
+ // destroy the structured dotprod object
+ int dotprod_crcf_destroy(dotprod_crcf _q)
+ {
+diff --git a/src/dotprod/src/dotprod_rrrf.av.c b/src/dotprod/src/dotprod_rrrf.av.c
+index 95e61492..765bf2c9 100644
+--- a/src/dotprod/src/dotprod_rrrf.av.c
++++ b/src/dotprod/src/dotprod_rrrf.av.c
+@@ -26,6 +26,7 @@
+ 
+ #include <stdio.h>
+ #include <stdlib.h>
++#include <string.h>
+ #include <altivec.h>
+ 
+ #include "liquid.internal.h"
+@@ -156,6 +157,32 @@ dotprod_rrrf dotprod_rrrf_recreate_rev(dotprod_rrrf _q,
+     return dotprod_rrrf_create_rev(_h,_n);
+ }
+ 
++dotprod_rrrf dotprod_rrrf_copy(dotprod_rrrf q_orig)
++{
++    // validate input
++    if (q_orig == NULL)
++        return liquid_error_config("dotprod_rrrf_copy().av, object cannot be NULL");
++
++    dotprod_rrrf q_copy = (dotprod_rrrf)malloc(sizeof(struct dotprod_rrrf_s));
++    q_copy->n = q_orig->n;
++
++    // allocate memory for coefficients and copy them over
++    // there are 4 copies of the input coefficients (one for each
++    // data alignment).  For example: _h[4] = {1,2,3,4,5,6}
++    //  q->h[0] = {1,2,3,4,5,6}
++    //  q->h[1] = {. 1,2,3,4,5,6}
++    //  q->h[2] = {. . 1,2,3,4,5,6}
++    //  q->h[3] = {. . . 1,2,3,4,5,6}
++    unsigned int i;
++    for (i=0; i<4; i++) {
++        q_copy->h[i] = calloc(1+(q_copy->n+i-1)/4,sizeof(vector float));
++        memmove(q_copy->h[i] + i, q_orig->h[i] + i, q_orig->n*sizeof(float));
++    }
++
++    // return object
++    return q_copy;
++}
++
+ // destroy the structured dotprod object
+ int dotprod_rrrf_destroy(dotprod_rrrf _q)
+ {
+-- 
+2.39.2
+
