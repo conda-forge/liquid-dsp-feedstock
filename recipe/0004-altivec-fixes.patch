@@ -13,10 +13,10 @@ Subject: [PATCH] altivec fixes
  3 files changed, 11 insertions(+), 9 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index 338ffea4..e0ed8cd3 100644
+index 3b9a03c3..92e93f3f 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -211,7 +211,7 @@ else
+@@ -220,7 +220,7 @@ else
                         src/dotprod/src/dotprod_rrrf.av.o \
                         src/dotprod/src/dotprod_crcf.av.o \
                         src/dotprod/src/sumsq.o"
@@ -108,5 +108,5 @@ index 4aebc45d..6d2c48d3 100644
      // sum the resulting array
      *_r = s.w[0] + s.w[1] + s.w[2] + s.w[3];
 -- 
-2.39.2
+2.40.0
 
