@@ -102,5 +102,5 @@ index 95e61492..765bf2c9 100644
  int dotprod_rrrf_destroy(dotprod_rrrf _q)
  {
 -- 
-2.39.2
+2.40.0
 

@@ -9,7 +9,7 @@ Subject: [PATCH] Remove "-fPIC" from forced CFLAGS, errors on Windows with
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/makefile.in b/makefile.in
-index 954b0006..09416d87 100644
+index ca8d9220..508ae6a1 100644
 --- a/makefile.in
 +++ b/makefile.in
 @@ -72,7 +72,7 @@ INCLUDE_CFLAGS	= $(addprefix -I,$(include_dirs))
@@ -22,5 +22,5 @@ index 954b0006..09416d87 100644
  LDFLAGS		= @LDFLAGS@
  LIBS		= @LIBS@
 -- 
-2.39.2
+2.40.0
 

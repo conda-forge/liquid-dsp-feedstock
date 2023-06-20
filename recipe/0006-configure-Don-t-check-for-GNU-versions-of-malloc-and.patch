@@ -12,7 +12,7 @@ when we don't actually care if malloc(0) returns a valid pointer.
  1 file changed, 2 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index e0ed8cd3..be3ae996 100644
+index 92e93f3f..f6fcf25b 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -103,8 +103,6 @@ AC_PROG_RANLIB
@@ -25,5 +25,5 @@ index e0ed8cd3..be3ae996 100644
  # AC_CHECK_FUNC(function, [action-if-found], [action-if-not-found])
  AC_CHECK_FUNCS([malloc realloc free memset memmove],[],
 -- 
-2.39.2
+2.40.0
 

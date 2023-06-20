@@ -8,7 +8,7 @@ Subject: [PATCH] Remove headers check
  1 file changed, 8 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index 12d4b7cd..d5e0c7bb 100644
+index 72518d1c..503f0335 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -106,20 +106,12 @@ AC_FUNC_ERROR_AT_LINE
@@ -33,5 +33,5 @@ index 12d4b7cd..d5e0c7bb 100644
  AC_CHECK_HEADERS(fec.h fftw3.h)
  AC_CHECK_LIB([fftw3f], [fftwf_plan_dft_1d], [],
 -- 
-2.39.2
+2.40.0
 
