@@ -20,7 +20,7 @@ source:
     - 0007-altivec-Add-dotprod_-_copy-functions-to-complete-API.patch
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   build:
