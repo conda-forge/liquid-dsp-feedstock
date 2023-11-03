@@ -6,6 +6,8 @@ set -ex
 if [[ "$target_platform" == win-64 ]]; then
   export CPPFLAGS="$CPPFLAGS -isystem $PREFIX/include"
   export LDFLAGS="$LDFLAGS -L$PREFIX/lib"
+  # force disable avx512 support because build fails with missing declarations
+  export ax_cv_have_avx512_os_support_ext='no'
 fi
 
 configure_args=(
