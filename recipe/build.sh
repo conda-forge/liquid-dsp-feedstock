@@ -15,7 +15,7 @@ configure_args=(
 )
 
 ./bootstrap.sh
-./configure "${configure_args[@]}"
+./configure "${configure_args[@]}" || cat config.log
 make -j${CPU_COUNT}
 make install
 

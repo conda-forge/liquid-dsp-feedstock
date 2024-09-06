@@ -20,18 +20,21 @@ source:
     - 0007-altivec-Add-dotprod_-_copy-functions-to-complete-API.patch
 
 build:
-  number: 1
+  number: 2
 
 requirements:
   build:
     # need default C compiler on Windows too (MSVC) for generating import lib
     - {{ compiler('c') }}
+    - {{ stdlib("c") }}
     - {{ compiler('m2w64_c') }}  # [win]
+    - {{ stdlib("m2w64_c") }}    # [win]
     - {{ posix }}autoconf
     - {{ posix }}automake  # [unix]
     - {{ posix }}automake-wrapper  # [win]
-    - make  # [unix]
-    - posix  # [win]
+    - {{ posix }}base  # [win]
+    - {{ posix }}grep  # [win]
+    - {{ posix }}make
   host:
     - fftw
     - libcorrect
@@ -41,7 +44,9 @@ outputs:
     requirements:
       build:
         - {{ compiler('c') }}  # [unix]
+        - {{ stdlib("c") }}    # [unix]
         - {{ compiler('m2w64_c') }}  # [win]
+        - {{ stdlib("m2w64_c") }}    # [win]
       host:
         - fftw
         - libcorrect
@@ -62,7 +67,9 @@ outputs:
     requirements:
       build:
         - {{ compiler('c') }}  # [unix]
+        - {{ stdlib("c") }}    # [unix]
         - {{ compiler('m2w64_c') }}  # [win]
+        - {{ stdlib("m2w64_c") }}    # [win]
       host:
         - fftw
         - libcorrect
