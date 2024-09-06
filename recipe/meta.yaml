@@ -32,7 +32,8 @@ requirements:
     - {{ posix }}autoconf
     - {{ posix }}automake  # [unix]
     - {{ posix }}automake-wrapper  # [win]
-    - make
+    - {{ posix }}grep  # [win]
+    - {{ posix }}make
   host:
     - fftw
     - libcorrect
