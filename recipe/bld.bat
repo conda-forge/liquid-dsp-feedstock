@@ -1,18 +1,19 @@
 @echo on
 
-:: reset compiler to m2w64-toolchain since MSVC is also activated
-:: (MSVC is needed later to generate the import lib)
-set "CC=gcc.exe"
+echo source %SYS_PREFIX:\=/%/etc/profile.d/conda.sh    > conda_build.sh
+echo conda activate "${PREFIX}"                       >> conda_build.sh
+echo conda activate --stack "${BUILD_PREFIX}"         >> conda_build.sh
+echo CONDA_PREFIX=${CONDA_PREFIX//\\//}               >> conda_build.sh
+type "%RECIPE_DIR%\build.sh"                          >> conda_build.sh
 
-copy "%RECIPE_DIR%\build.sh" .
-set MSYSTEM=MINGW%ARCH%
+set PREFIX=%LIBRARY_PREFIX:\=/%
+set BUILD_PREFIX=%BUILD_PREFIX:\=/%
+set CONDA_PREFIX=%CONDA_PREFIX:\=/%
+set SRC_DIR=%SRC_DIR:\=/%
+set MSYSTEM=UCRT64
 set MSYS2_PATH_TYPE=inherit
 set CHERE_INVOKING=1
-FOR /F "delims=" %%i in ('cygpath.exe -u "%LIBRARY_PREFIX%"') DO set "PREFIX=%%i"
-FOR /F "delims=" %%i in ('cygpath.exe -u "%BUILD_PREFIX%"') DO set "BUILD_PREFIX=%%i"
-FOR /F "delims=" %%i in ('cygpath.exe -u "%SRC_DIR%"') DO set "SRC_DIR=%%i"
-FOR /F "delims=" %%i in ('cygpath.exe -u "%RECIPE_DIR%"') DO set "RECIPE_DIR=%%i"
-bash -lce "./build.sh"
+bash -lc "./conda_build.sh"
 if errorlevel 1 exit 1
 
 :: Generate MSVC-compatible import library
