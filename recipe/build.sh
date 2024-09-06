@@ -11,6 +11,7 @@ if [[ "$target_platform" == win-64 ]]; then
 fi
 
 configure_args=(
+    $CONFIG_FLAGS
     --prefix=$PREFIX
 )
 
