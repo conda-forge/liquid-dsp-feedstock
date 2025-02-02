@@ -1,4 +1,4 @@
-{% set version = "1.6.0" %}
+{% set version = "1.7.0" %}
 {% set version_major = version.split('.', 1)[0] %}
 {% set posix = 'm2-' if win else '' %}
 {% set library = "Library/" if win else "" %}
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://github.com/jgaeddert/liquid-dsp/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 6ee6a5dfb48e047b118cf613c0b9f43e34356a5667a77a72a55371d2c8c53bf5
+  sha256: 33c42ebc2e6088570421e282c6332e899705d42b4f73ebd1212e6a11da714dd4
   patches:
     - 0001-Remove-headers-check.patch  # [win]
     - 0002-Remove-fPIC-from-forced-CFLAGS-errors-on-Windows-wit.patch  # [win]
@@ -20,7 +20,7 @@ source:
     - 0007-altivec-Add-dotprod_-_copy-functions-to-complete-API.patch
 
 build:
-  number: 2
+  number: 0
 
 requirements:
   build:
