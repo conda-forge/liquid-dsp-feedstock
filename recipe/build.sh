@@ -27,17 +27,17 @@ else
   export ax_cv_have_avx_cpu_ext="no"
   export ax_cv_have_avx_ext="no"
 fi
-# if [[ "$microarch_level" == "2" ]]; then
-#   export ax_cv_have_sse41_cpu_ext="yes"
-#   export ax_cv_have_sse41_ext="yes"
-#   export ax_cv_have_sse3_cpu_ext="yes"
-#   export ax_cv_have_sse3_ext="yes"
-# else
-#   export ax_cv_have_sse41_cpu_ext="no"
-#   export ax_cv_have_sse41_ext="no"
-#   export ax_cv_have_sse3_cpu_ext="no"
-#   export ax_cv_have_sse3_ext="no"
-# fi
+if [[ "$microarch_level" == "2" ]]; then
+  export ax_cv_have_sse41_cpu_ext="yes"
+  export ax_cv_have_sse41_ext="yes"
+  export ax_cv_have_sse3_cpu_ext="yes"
+  export ax_cv_have_sse3_ext="yes"
+else
+  export ax_cv_have_sse41_cpu_ext="no"
+  export ax_cv_have_sse41_ext="no"
+  export ax_cv_have_sse3_cpu_ext="no"
+  export ax_cv_have_sse3_ext="no"
+fi
 if [[ "$microarch_level" == "1" ]]; then
   export ax_cv_have_sse2_cpu_ext="yes"
   export ax_cv_have_sse2_ext="yes"
