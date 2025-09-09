@@ -17,6 +17,6 @@ docker_image:
 fftw:
 - '3'
 microarch_level:
-- '1'
+- '4'
 target_platform:
-- linux-aarch64
+- linux-64
