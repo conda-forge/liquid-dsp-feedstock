@@ -10,6 +10,44 @@ if [[ "$target_platform" == win-64 ]]; then
   export ax_cv_have_avx512_os_support_ext='no'
 fi
 
+# override SIMD detection based on microarch level we're compiling for
+if [[ "$microarch_level" == "4" ]]; then
+  export ax_cv_have_avx512f_cpu_ext="yes"
+  export ax_cv_have_avx512f_ext="yes"
+else
+  export ax_cv_have_avx512f_cpu_ext="no"
+  export ax_cv_have_avx512f_ext="no"
+fi
+if [[ "$microarch_level" == "3" ]]; then
+  export ax_cv_have_avx2_cpu_ext="yes"
+  export ax_cv_have_avx2_ext="yes"
+  export ax_cv_have_avx_cpu_ext="yes"
+  export ax_cv_have_avx_ext="yes"
+else
+  export ax_cv_have_avx2_cpu_ext="no"
+  export ax_cv_have_avx2_ext="no"
+  export ax_cv_have_avx_cpu_ext="no"
+  export ax_cv_have_avx_ext="no"
+fi
+# if [[ "$microarch_level" == "2" ]]; then
+#   export ax_cv_have_sse41_cpu_ext="yes"
+#   export ax_cv_have_sse41_ext="yes"
+#   export ax_cv_have_sse3_cpu_ext="yes"
+#   export ax_cv_have_sse3_ext="yes"
+# else
+#   export ax_cv_have_sse41_cpu_ext="no"
+#   export ax_cv_have_sse41_ext="no"
+#   export ax_cv_have_sse3_cpu_ext="no"
+#   export ax_cv_have_sse3_ext="no"
+# fi
+if [[ "$microarch_level" == "1" ]]; then
+  export ax_cv_have_sse2_cpu_ext="yes"
+  export ax_cv_have_sse2_ext="yes"
+else
+  export ax_cv_have_sse2_cpu_ext="no"
+  export ax_cv_have_sse2_ext="no"
+fi
+
 configure_args=(
     --prefix=$PREFIX
 )

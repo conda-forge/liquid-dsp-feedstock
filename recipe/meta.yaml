@@ -1,5 +1,6 @@
 {% set version = "1.6.0" %}
 {% set version_major = version.split('.', 1)[0] %}
+{% set build = 3 %}
 {% set posix = 'm2-' if win else '' %}
 {% set library = "Library/" if win else "" %}
 
@@ -20,10 +21,15 @@ source:
     - 0007-altivec-Add-dotprod_-_copy-functions-to-complete-API.patch
 
 build:
-  number: 2
+  number: {{ build }}        # [not x86_64]
+  number: {{ build + 100 }}  # [x86_64 and microarch_level == 1]
+  number: {{ build + 200 }}  # [x86_64 and microarch_level == 2]
+  number: {{ build + 300 }}  # [x86_64 and microarch_level == 3]
+  number: {{ build + 400 }}  # [x86_64 and microarch_level == 4]
 
 requirements:
   build:
+    - x86_64-microarch-level {{ microarch_level }}  # [x86_64]
     # need default C compiler on Windows too (MSVC) for generating import lib
     - {{ compiler('c') }}
     - {{ stdlib("c") }}

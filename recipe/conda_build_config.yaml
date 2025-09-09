@@ -1,0 +1,5 @@
+microarch_level:
+  - 1
+  #- 2  # [x86_64]
+  - 3  # [x86_64]
+  - 4  # [x86_64 and not win]
