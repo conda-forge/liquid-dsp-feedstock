@@ -25,5 +25,5 @@ index 92e93f3f..f6fcf25b 100644
  # AC_CHECK_FUNC(function, [action-if-found], [action-if-not-found])
  AC_CHECK_FUNCS([malloc realloc free memset memmove],[],
 -- 
-2.40.0
+2.51.0
 

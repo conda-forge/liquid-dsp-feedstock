@@ -19,6 +19,7 @@ source:
     - 0005-altivec-Fix-typo-in-dotprod_rrrf.av.c-that-prevented.patch
     - 0006-configure-Don-t-check-for-GNU-versions-of-malloc-and.patch
     - 0007-altivec-Add-dotprod_-_copy-functions-to-complete-API.patch
+    - 0008-configure-Enable-SIMD-optimizations-for-64-bit-ARM.patch
 
 build:
   number: {{ build }}        # [not (unix and x86_64)]
