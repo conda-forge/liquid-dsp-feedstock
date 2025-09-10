@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ryan Volz <ryan.volz@gmail.com>
+Date: Tue, 9 Sep 2025 16:59:26 -0400
+Subject: [PATCH] configure: Enable SIMD optimizations for 64-bit ARM
+
+---
+ configure.ac | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/configure.ac b/configure.ac
+index f6fcf25b..df6d21be 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -244,6 +244,13 @@ else
+             #ARCH_OPTION="-ffast-math -mcpu=cortex-a8 -mfloat-abi=softfp -mfpu=neon";;
+             ARCH_OPTION="-ffast-math -mcpu=cortex-a7 -mfloat-abi=hard -mfpu=neon-vfpv4";;
+         esac;;
++    aarch64*)
++        # ARM architecture : use neon extensions
++        MLIBS_DOTPROD="src/dotprod/src/dotprod_cccf.neon.o \
++                       src/dotprod/src/dotprod_crcf.neon.o \
++                       src/dotprod/src/dotprod_rrrf.neon.o \
++                       src/dotprod/src/sumsq.o"
++        ARCH_OPTION="-ffast-math -march=armv8-a";;
+     *)
+         # unknown architecture : use portable C version
+         MLIBS_DOTPROD="src/dotprod/src/dotprod_cccf.o \
+-- 
+2.51.0
+

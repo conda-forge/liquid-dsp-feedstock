@@ -19,4 +19,4 @@ fftw:
 microarch_level:
 - '1'
 target_platform:
-- linux-aarch64
+- linux-64

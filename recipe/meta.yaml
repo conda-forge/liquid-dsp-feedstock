@@ -1,5 +1,6 @@
 {% set version = "1.6.0" %}
 {% set version_major = version.split('.', 1)[0] %}
+{% set build = 3 %}
 {% set posix = 'm2-' if win else '' %}
 {% set library = "Library/" if win else "" %}
 
@@ -18,12 +19,18 @@ source:
     - 0005-altivec-Fix-typo-in-dotprod_rrrf.av.c-that-prevented.patch
     - 0006-configure-Don-t-check-for-GNU-versions-of-malloc-and.patch
     - 0007-altivec-Add-dotprod_-_copy-functions-to-complete-API.patch
+    - 0008-configure-Enable-SIMD-optimizations-for-64-bit-ARM.patch
 
 build:
-  number: 2
+  number: {{ build }}        # [not (unix and x86_64)]
+  number: {{ build + 100 }}  # [unix and x86_64 and microarch_level == 1]
+  number: {{ build + 200 }}  # [unix and x86_64 and microarch_level == 2]
+  number: {{ build + 300 }}  # [unix and x86_64 and microarch_level == 3]
+  number: {{ build + 400 }}  # [unix and x86_64 and microarch_level == 4]
 
 requirements:
   build:
+    - x86_64-microarch-level {{ microarch_level }}  # [unix and x86_64]
     # need default C compiler on Windows too (MSVC) for generating import lib
     - {{ compiler('c') }}
     - {{ stdlib("c") }}
@@ -43,6 +50,7 @@ outputs:
   - name: libliquid{{ version_major }}
     requirements:
       build:
+        - x86_64-microarch-level {{ microarch_level }}  # [unix and x86_64]
         - {{ compiler('c') }}  # [unix]
         - {{ stdlib("c") }}    # [unix]
         - {{ compiler('m2w64_c') }}  # [win]
@@ -66,6 +74,7 @@ outputs:
         - {{ pin_subpackage('libliquid' + version_major, max_pin=False) }}
     requirements:
       build:
+        - x86_64-microarch-level {{ microarch_level }}  # [unix and x86_64]
         - {{ compiler('c') }}  # [unix]
         - {{ stdlib("c") }}    # [unix]
         - {{ compiler('m2w64_c') }}  # [win]

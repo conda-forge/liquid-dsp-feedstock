@@ -108,5 +108,5 @@ index 4aebc45d..6d2c48d3 100644
      // sum the resulting array
      *_r = s.w[0] + s.w[1] + s.w[2] + s.w[3];
 -- 
-2.40.0
+2.51.0
 
